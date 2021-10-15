@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
 import { PageContainer } from "./components";
-import { MyDropzone } from "./components/FileUpload";
+import { DataContainer } from "./components/DataContainer";
 
 function App(): ReactElement {
   return (
     <PageContainer>
-      <MyDropzone />
+      <DataContainer />
     </PageContainer>
   );
 }

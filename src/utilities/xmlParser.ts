@@ -1,8 +1,9 @@
 import he from "he";
 
 import parser from "fast-xml-parser";
+import { UploadData, validate } from "./validateUpload";
 
-export const parseXML = (xmlData: string): unknown => {
+export const parseXML = (xmlData: string): UploadData | undefined => {
   interface Options {
     ignoreAttributes: boolean;
     attrValueProcessor: (val: string) => string;
@@ -24,10 +25,10 @@ export const parseXML = (xmlData: string): unknown => {
   }
 
   const options: Options = {
-    attributeNamePrefix: "@_",
+    attributeNamePrefix: "",
     attrNodeName: "attr", //default is 'false'
     textNodeName: "#text",
-    ignoreAttributes: true,
+    ignoreAttributes: false,
     ignoreNameSpace: false,
     allowBooleanAttributes: false,
     parseNodeValue: true,
@@ -50,10 +51,9 @@ export const parseXML = (xmlData: string): unknown => {
   if (parser.validate(xmlData) === true) {
     //optional (it'll return an object in case it's not valid)
     const jsonObj = parser.parse(xmlData, options);
-    return jsonObj;
+    if (validate(jsonObj)) {
+      return jsonObj;
+    }
   }
-
-  // // Intermediate obj
-  // const tObj = parser.getTraversalObj(xmlData, options);
-  // const jsonObj = parser.convertToJson(tObj, options);
+  return undefined;
 };

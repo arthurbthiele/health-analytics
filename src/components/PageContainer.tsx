@@ -1,6 +1,4 @@
 import React, { ReactElement, ReactNode } from "react";
-import { fonts } from "../assets";
-import { Text } from "./Text";
 
 export const PageContainer = ({
   children,
@@ -18,6 +16,7 @@ export const PageContainer = ({
   >
     <div
       style={{
+        padding: 24,
         width: "100%",
         height: "100%",
         position: "absolute",
@@ -25,9 +24,6 @@ export const PageContainer = ({
         top: 0,
       }}
     >
-      <Text style={{ ...fonts.primary.medium, margin: 8 }}>
-        Here is some text!
-      </Text>
       {children}
     </div>
   </div>

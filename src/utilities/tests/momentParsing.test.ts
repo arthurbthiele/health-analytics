@@ -8,6 +8,7 @@ describe("when moment is passed a date", () => {
     const unDuplicatedArray = duplicateArray.filter(
       (v, i, s) => s.indexOf(v) === i
     );
-    expect(unDuplicatedArray).toEqual(1);
+
+    expect(unDuplicatedArray).toEqual([1, 2, 3, 4]);
   });
 });

@@ -1,21 +1,25 @@
 import React, { ReactElement } from "react";
-import { HeartRateDatum } from "../utilities/processData";
+import { TimeSeries } from "../utilities/processData";
 import { Line } from "react-chartjs-2";
 
-export function HeartRateGraph({
-  heartRateData,
+export function TimeSeriesGraph({
+  timeSeries,
 }: {
-  heartRateData: HeartRateDatum[];
+  timeSeries: TimeSeries | undefined;
 }): ReactElement {
+  if (timeSeries === undefined) {
+    return <div></div>;
+  }
+
   const state = {
-    labels: heartRateData.map((datum) => datum.t),
+    labels: timeSeries.dataSet.map((datum) => datum.t),
     datasets: [
       {
-        label: "Rainfall",
+        label: timeSeries.type,
         backgroundColor: "rgba(75,192,192,1)",
         borderColor: "rgba(0,0,0,1)",
         borderWidth: 2,
-        data: heartRateData.map((datum) => datum.y),
+        data: timeSeries.dataSet.map((datum) => datum.y),
       },
     ],
   };
@@ -26,7 +30,7 @@ export function HeartRateGraph({
         {
           title: {
             display: true,
-            text: "Average Rainfall per month",
+            text: "Average Resting Heart Rate",
           },
           legend: {
             display: true,

@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/health-monitor/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/health-monitor/static/js/main.8ebaee0c.chunk.js",
-    "main.js.map": "/health-monitor/static/js/main.8ebaee0c.chunk.js.map",
+    "main.js": "/health-monitor/static/js/main.30b3d958.chunk.js",
+    "main.js.map": "/health-monitor/static/js/main.30b3d958.chunk.js.map",
     "runtime-main.js": "/health-monitor/static/js/runtime-main.11acfe1f.js",
     "runtime-main.js.map": "/health-monitor/static/js/runtime-main.11acfe1f.js.map",
     "static/js/2.d438600c.chunk.js": "/health-monitor/static/js/2.d438600c.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.11acfe1f.js",
     "static/js/2.d438600c.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.8ebaee0c.chunk.js"
+    "static/js/main.30b3d958.chunk.js"
   ]
 }

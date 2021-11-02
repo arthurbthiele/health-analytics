@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { FileUploader } from "./FileUploader";
-import { processData, TimeSeriesCollection } from "../utilities/processData";
+import { processData, NewTimeSeriesCollection } from "../utilities/processData";
 import { TimeSeriesGraph } from "./TimeSeriesGraph";
 import { UploadData } from "../utilities/validateUpload";
 import { DateInput } from "./DateInput";
@@ -8,7 +8,7 @@ import { DateInput } from "./DateInput";
 
 export function DataContainer(): ReactElement {
   const [timeSeriesCollection, setTimeSeriesCollection] =
-    useState<TimeSeriesCollection>();
+    useState<NewTimeSeriesCollection>();
   // const [lifestyleChangeDate, setLifestyleChangeDate] = useState<
   //   moment.Moment | undefined
   // >(undefined);
@@ -22,9 +22,11 @@ export function DataContainer(): ReactElement {
       <FileUploader onUpload={onUpload} />
       <DateInput />
       {timeSeriesCollection
-        ? Object.values(timeSeriesCollection).map((timeSeries, index) => (
-            <TimeSeriesGraph timeSeries={timeSeries} key={index} />
-          ))
+        ? Object.values(timeSeriesCollection.timeSeries).map(
+            (timeSeries, index) => (
+              <TimeSeriesGraph timeSeries={timeSeries} key={index} />
+            )
+          )
         : null}
     </div>
   );

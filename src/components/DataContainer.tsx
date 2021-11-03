@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { FileUploader } from "./FileUploader";
-import { processData, TimeSeriesCollection } from "../utilities/processData";
+import { processData, TimeSeries } from "../utilities/processData";
 import { TimeSeriesGraph } from "./TimeSeriesGraph";
 import { UploadData } from "../utilities/validateUpload";
 import { DateInput } from "./DateInput";
@@ -9,7 +9,7 @@ import GraphSelector from "./GraphSelector";
 
 export function DataContainer(): ReactElement {
   const [timeSeriesCollection, setTimeSeriesCollection] =
-    useState<TimeSeriesCollection>();
+    useState<Record<string, TimeSeries>>();
   const [selectedTimeSeries, setSelectedTimeSeries] = useState<string>("");
   // const [lifestyleChangeDate, setLifestyleChangeDate] = useState<
   //   moment.Moment | undefined
@@ -30,12 +30,11 @@ export function DataContainer(): ReactElement {
           setSelectedTimeSeries={setSelectedTimeSeries}
         />
       )}
-      {!!timeSeriesCollection &&
-        !!timeSeriesCollection.timeSeries[selectedTimeSeries] && (
-          <TimeSeriesGraph
-            timeSeries={timeSeriesCollection.timeSeries[selectedTimeSeries]}
-          />
-        )}
+      {!!timeSeriesCollection && !!timeSeriesCollection[selectedTimeSeries] && (
+        <TimeSeriesGraph
+          timeSeries={timeSeriesCollection[selectedTimeSeries]}
+        />
+      )}
     </div>
   );
 }

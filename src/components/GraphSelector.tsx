@@ -4,7 +4,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { TimeSeriesCollection } from "../utilities/processData";
+import { TimeSeries } from "../utilities/processData";
 import { ReactElement } from "react";
 
 export default function GraphSelector({
@@ -12,7 +12,7 @@ export default function GraphSelector({
   selectedTimeSeries,
   setSelectedTimeSeries,
 }: {
-  timeSeriesCollection: TimeSeriesCollection;
+  timeSeriesCollection: Record<string, TimeSeries>;
   selectedTimeSeries: string;
   setSelectedTimeSeries: React.Dispatch<React.SetStateAction<string>>;
 }): ReactElement {
@@ -31,13 +31,11 @@ export default function GraphSelector({
           label="Select a data type to explore"
           onChange={handleChange}
         >
-          {Object.values(timeSeriesCollection.timeSeries).map(
-            (timeSeries, index) => (
-              <MenuItem value={timeSeries.type} key={index}>
-                {timeSeries.type}
-              </MenuItem>
-            )
-          )}
+          {Object.values(timeSeriesCollection).map((timeSeries, index) => (
+            <MenuItem value={timeSeries.type} key={index}>
+              {timeSeries.type}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Box>

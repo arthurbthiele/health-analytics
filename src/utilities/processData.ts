@@ -11,13 +11,9 @@ export interface TimeSeries {
   dataSet: TimeSeriesDatum[];
 }
 
-export interface TimeSeriesCollection {
-  timeSeries: Record<string, TimeSeries>;
-}
-
-export function processData(inputJson: UploadData): TimeSeriesCollection {
+export function processData(inputJson: UploadData): Record<string, TimeSeries> {
   const startTime = moment();
-  const newTimeSeriesCollection: TimeSeriesCollection = { timeSeries: {} };
+  const newTimeSeriesCollection: Record<string, TimeSeries> = {};
 
   const timeSeriesRaw = inputJson.HealthData.Record.filter(
     (element: Element): element is RawTimeSeriesDatum =>
@@ -31,15 +27,13 @@ export function processData(inputJson: UploadData): TimeSeriesCollection {
     const timeSeriesDatum = getTimeSeriesDataPoint(element);
     const dataType = element.attr.type;
 
-    if (!(dataType in newTimeSeriesCollection.timeSeries)) {
-      newTimeSeriesCollection.timeSeries[dataType] = {
+    if (!(dataType in newTimeSeriesCollection)) {
+      newTimeSeriesCollection[dataType] = {
         type: dataType,
         dataSet: [timeSeriesDatum],
       };
     } else {
-      newTimeSeriesCollection.timeSeries[dataType].dataSet.push(
-        timeSeriesDatum
-      );
+      newTimeSeriesCollection[dataType].dataSet.push(timeSeriesDatum);
     }
   });
   console.log("Time to allocate to timeseries:");

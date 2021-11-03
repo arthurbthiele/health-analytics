@@ -26,7 +26,7 @@ export function TimeSeriesGraph({
         {
           title: {
             display: true,
-            text: "Average Resting Heart Rate",
+            text: timeSeries.type,
           },
           legend: {
             display: true,

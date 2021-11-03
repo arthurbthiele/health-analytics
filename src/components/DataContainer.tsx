@@ -23,20 +23,13 @@ export function DataContainer(): ReactElement {
     <div>
       <FileUploader onUpload={onUpload} />
       <DateInput />
-      {timeSeriesCollection ? (
+      {!!timeSeriesCollection && (
         <GraphSelector
           timeSeriesCollection={timeSeriesCollection}
           selectedTimeSeries={selectedTimeSeries}
           setSelectedTimeSeries={setSelectedTimeSeries}
         />
-      ) : null}
-      {/*{timeSeriesCollection*/}
-      {/*  ? Object.values(timeSeriesCollection.timeSeries).map(*/}
-      {/*      (timeSeries, index) => (*/}
-      {/*        <TimeSeriesGraph timeSeries={timeSeries} key={index} />*/}
-      {/*      )*/}
-      {/*    )*/}
-      {/*  : null}*/}
+      )}
       {!!timeSeriesCollection &&
         !!timeSeriesCollection.timeSeries[selectedTimeSeries] && (
           <TimeSeriesGraph

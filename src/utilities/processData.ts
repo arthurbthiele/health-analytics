@@ -11,18 +11,22 @@ export interface TimeSeries {
   dataSet: TimeSeriesDatum[];
 }
 
-export interface NewTimeSeriesCollection {
+export interface TimeSeriesCollection {
   timeSeries: Record<string, TimeSeries>;
 }
 
-export function processData(inputJson: UploadData): NewTimeSeriesCollection {
-  const newTimeSeriesCollection = createNewTimeSeriesCollection();
+export function processData(inputJson: UploadData): TimeSeriesCollection {
+  const startTime = moment();
+  const newTimeSeriesCollection: TimeSeriesCollection = { timeSeries: {} };
 
   const timeSeriesRaw = inputJson.HealthData.Record.filter(
     (element: Element): element is RawTimeSeriesDatum =>
       element.attr.value !== undefined && element.attr.startDate !== undefined
   );
-
+  console.log("Time to filter:");
+  const filterTime = moment();
+  const timeToFilter = filterTime.diff(startTime);
+  console.log(timeToFilter);
   timeSeriesRaw.forEach((element) => {
     const timeSeriesDatum = getTimeSeriesDataPoint(element);
     const dataType = element.attr.type;
@@ -38,6 +42,9 @@ export function processData(inputJson: UploadData): NewTimeSeriesCollection {
       );
     }
   });
+  console.log("Time to allocate to timeseries:");
+  const timeToAllocate = moment().diff(startTime);
+  console.log(timeToAllocate);
   return newTimeSeriesCollection;
 }
 
@@ -55,8 +62,4 @@ function getTimeSeriesDataPoint(element: RawTimeSeriesDatum): TimeSeriesDatum {
   const startTime = moment(element.attr.startDate);
   const value = parseInt(element.attr.value);
   return { t: startTime, y: value };
-}
-
-function createNewTimeSeriesCollection(): NewTimeSeriesCollection {
-  return { timeSeries: {} } as NewTimeSeriesCollection;
 }

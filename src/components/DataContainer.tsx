@@ -1,14 +1,16 @@
 import React, { ReactElement, useState } from "react";
 import { FileUploader } from "./FileUploader";
-import { processData, NewTimeSeriesCollection } from "../utilities/processData";
+import { processData, TimeSeriesCollection } from "../utilities/processData";
 import { TimeSeriesGraph } from "./TimeSeriesGraph";
 import { UploadData } from "../utilities/validateUpload";
 import { DateInput } from "./DateInput";
+import GraphSelector from "./GraphSelector";
 // import moment from "moment";
 
 export function DataContainer(): ReactElement {
   const [timeSeriesCollection, setTimeSeriesCollection] =
-    useState<NewTimeSeriesCollection>();
+    useState<TimeSeriesCollection>();
+  const [selectedTimeSeries, setSelectedTimeSeries] = useState<string>("");
   // const [lifestyleChangeDate, setLifestyleChangeDate] = useState<
   //   moment.Moment | undefined
   // >(undefined);
@@ -21,13 +23,26 @@ export function DataContainer(): ReactElement {
     <div>
       <FileUploader onUpload={onUpload} />
       <DateInput />
-      {timeSeriesCollection
-        ? Object.values(timeSeriesCollection.timeSeries).map(
-            (timeSeries, index) => (
-              <TimeSeriesGraph timeSeries={timeSeries} key={index} />
-            )
-          )
-        : null}
+      {timeSeriesCollection ? (
+        <GraphSelector
+          timeSeriesCollection={timeSeriesCollection}
+          selectedTimeSeries={selectedTimeSeries}
+          setSelectedTimeSeries={setSelectedTimeSeries}
+        />
+      ) : null}
+      {/*{timeSeriesCollection*/}
+      {/*  ? Object.values(timeSeriesCollection.timeSeries).map(*/}
+      {/*      (timeSeries, index) => (*/}
+      {/*        <TimeSeriesGraph timeSeries={timeSeries} key={index} />*/}
+      {/*      )*/}
+      {/*    )*/}
+      {/*  : null}*/}
+      {!!timeSeriesCollection &&
+        !!timeSeriesCollection.timeSeries[selectedTimeSeries] && (
+          <TimeSeriesGraph
+            timeSeries={timeSeriesCollection.timeSeries[selectedTimeSeries]}
+          />
+        )}
     </div>
   );
 }

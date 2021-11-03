@@ -5,12 +5,8 @@ import { Line } from "react-chartjs-2";
 export function TimeSeriesGraph({
   timeSeries,
 }: {
-  timeSeries: TimeSeries | undefined;
+  timeSeries: TimeSeries;
 }): ReactElement {
-  if (timeSeries === undefined) {
-    return <div></div>;
-  }
-
   const state = {
     labels: timeSeries.dataSet.map((datum) => datum.t),
     datasets: [

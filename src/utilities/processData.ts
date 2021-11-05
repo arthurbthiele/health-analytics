@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import { Element, UploadData } from "./validateUpload";
 
 export interface TimeSeriesDatum {
-  t: DateTime;
+  x: DateTime;
   y: number;
 }
 
@@ -55,7 +55,7 @@ interface TimeSeriesAttribute {
 function getTimeSeriesDataPoint(element: RawTimeSeriesDatum): TimeSeriesDatum {
   const startTime = DateTime.fromISO(getISODateFormat(element.attr.startDate));
   const value = Number(element.attr.value);
-  return { t: startTime, y: value };
+  return { x: startTime, y: value };
 }
 
 // Input format is 2021-03-20 20:12:15 +1000

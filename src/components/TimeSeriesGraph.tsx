@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import { TimeSeries } from "../utilities/processData";
 import { Line } from "react-chartjs-2";
+import "chartjs-adapter-luxon";
 
 export function TimeSeriesGraph({
   timeSeries,
@@ -8,14 +9,14 @@ export function TimeSeriesGraph({
   timeSeries: TimeSeries;
 }): ReactElement {
   const state = {
-    labels: timeSeries.dataSet.map((datum) => datum.t),
+    labels: timeSeries.dataSet.map((datum) => datum.x),
     datasets: [
       {
         label: timeSeries.type,
         backgroundColor: "rgba(75,192,192,1)",
         borderColor: "rgba(0,0,0,1)",
         borderWidth: 2,
-        data: timeSeries.dataSet.map((datum) => datum.y),
+        data: timeSeries.dataSet.map((element) => element.y),
       },
     ],
   };
@@ -34,6 +35,7 @@ export function TimeSeriesGraph({
           },
           scales: {
             x: {
+              type: "time",
               display: true,
               title: {
                 display: true,

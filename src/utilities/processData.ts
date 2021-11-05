@@ -1,4 +1,5 @@
 import moment from "moment";
+import { DateTime } from "luxon";
 import { Element, UploadData } from "./validateUpload";
 
 export interface TimeSeriesDatum {
@@ -8,6 +9,7 @@ export interface TimeSeriesDatum {
 
 export interface TimeSeries {
   type: string;
+  unit: string;
   dataSet: TimeSeriesDatum[];
 }
 
@@ -26,10 +28,12 @@ export function processData(inputJson: UploadData): Record<string, TimeSeries> {
   timeSeriesRaw.forEach((element) => {
     const timeSeriesDatum = getTimeSeriesDataPoint(element);
     const dataType = element.attr.type;
+    const unit = element.attr.unit;
 
     if (!(dataType in newTimeSeriesCollection)) {
       newTimeSeriesCollection[dataType] = {
         type: dataType,
+        unit: unit,
         dataSet: [timeSeriesDatum],
       };
     } else {
@@ -50,6 +54,7 @@ interface TimeSeriesAttribute {
   type: string;
   value: string;
   startDate: string;
+  unit: string;
 }
 
 function getTimeSeriesDataPoint(element: RawTimeSeriesDatum): TimeSeriesDatum {

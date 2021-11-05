@@ -32,6 +32,21 @@ export function TimeSeriesGraph({
             display: true,
             position: "right",
           },
+          scales: {
+            x: {
+              display: true,
+              title: {
+                display: true,
+              },
+            },
+            y: {
+              display: true,
+              title: {
+                display: true,
+                text: timeSeries.unit,
+              },
+            },
+          },
         } as any // eslint-disable-line @typescript-eslint/no-explicit-any
       }
     />

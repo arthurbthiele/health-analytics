@@ -1,9 +1,8 @@
-import moment from "moment";
 import { DateTime } from "luxon";
 import { Element, UploadData } from "./validateUpload";
 
 export interface TimeSeriesDatum {
-  t: moment.Moment;
+  t: DateTime;
   y: number;
 }
 
@@ -14,17 +13,16 @@ export interface TimeSeries {
 }
 
 export function processData(inputJson: UploadData): Record<string, TimeSeries> {
-  const startTime = moment();
   const newTimeSeriesCollection: Record<string, TimeSeries> = {};
 
   const timeSeriesRaw = inputJson.HealthData.Record.filter(
     (element: Element): element is RawTimeSeriesDatum =>
-      element.attr.value !== undefined && element.attr.startDate !== undefined
+      element.attr.value !== undefined &&
+      element.attr.startDate !== undefined &&
+      element.attr.type !== undefined &&
+      element.attr.unit !== undefined
   );
-  console.log("Time to filter:");
-  const filterTime = moment();
-  const timeToFilter = filterTime.diff(startTime);
-  console.log(timeToFilter);
+
   timeSeriesRaw.forEach((element) => {
     const timeSeriesDatum = getTimeSeriesDataPoint(element);
     const dataType = element.attr.type;
@@ -40,9 +38,6 @@ export function processData(inputJson: UploadData): Record<string, TimeSeries> {
       newTimeSeriesCollection[dataType].dataSet.push(timeSeriesDatum);
     }
   });
-  console.log("Time to allocate to timeseries:");
-  const timeToAllocate = moment().diff(startTime);
-  console.log(timeToAllocate);
   return newTimeSeriesCollection;
 }
 
@@ -58,7 +53,16 @@ interface TimeSeriesAttribute {
 }
 
 function getTimeSeriesDataPoint(element: RawTimeSeriesDatum): TimeSeriesDatum {
-  const startTime = moment(element.attr.startDate);
-  const value = parseInt(element.attr.value);
+  const startTime = DateTime.fromISO(getISODateFormat(element.attr.startDate));
+  const value = Number(element.attr.value);
   return { t: startTime, y: value };
+}
+
+// Input format is 2021-03-20 20:12:15 +1000
+// ISO input format is 2021-03-20T20:12:15+1000
+// We replace the first space with a T, and the second gets trimmed
+
+export function getISODateFormat(appleInput: string): string {
+  const chunks = appleInput.split(" ");
+  return chunks[0] + "T" + chunks[1] + chunks[2];
 }

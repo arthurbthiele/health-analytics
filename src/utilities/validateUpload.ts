@@ -23,6 +23,7 @@ interface Attribute {
   type: string;
   value?: string;
   startDate?: string;
+  unit?: string;
 }
 
 export { validate };

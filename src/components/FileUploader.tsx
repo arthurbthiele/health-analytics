@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { Text } from "./Text";
 import { parseXML } from "../utilities/xmlParser";
 import { UploadData } from "../utilities/validateUpload";
+import { Box } from "@mui/material";
 
 function getOnDrop(onUpload: (input: UploadData) => void) {
   return useCallback((acceptedFiles) => {
@@ -35,9 +36,20 @@ export function FileUploader({
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <div {...getRootProps()}>
-      <input {...getInputProps()} />
-      <Text>Click here to upload an XML file</Text>
-    </div>
+    <Box
+      sx={{
+        borderRadius: "16px",
+        bgcolor: "background.paper",
+        borderColor: "text.primary",
+        m: 1,
+        border: 1,
+        width: 240,
+      }}
+    >
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        <Text style={{ padding: "5px" }}>Click here to upload an XML file</Text>
+      </div>
+    </Box>
   );
 }

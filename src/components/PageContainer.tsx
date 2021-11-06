@@ -17,7 +17,7 @@ export const PageContainer = ({
     <div
       style={{
         padding: 24,
-        width: "100%",
+        width: "80%",
         height: "100%",
         position: "absolute",
         left: 0,

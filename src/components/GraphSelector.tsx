@@ -21,9 +21,9 @@ export default function GraphSelector({
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: 120, maxWidth: 500, padding: 1 }}>
       <FormControl fullWidth>
-        <InputLabel id="timeseries-select">Age</InputLabel>
+        <InputLabel id="timeseries-select">Data Set</InputLabel>
         <Select
           labelId="timeseries-select-label"
           id="timeseries-select"

@@ -30,7 +30,7 @@ export function processData(inputJson: UploadData): Record<string, TimeSeries> {
 
     if (!(dataType in newTimeSeriesCollection)) {
       newTimeSeriesCollection[dataType] = {
-        type: dataType,
+        type: trimDataType(dataType),
         unit: unit,
         dataSet: [timeSeriesDatum],
       };
@@ -38,7 +38,7 @@ export function processData(inputJson: UploadData): Record<string, TimeSeries> {
       newTimeSeriesCollection[dataType].dataSet.push(timeSeriesDatum);
     }
   });
-  return newTimeSeriesCollection;
+  return sortTimeSeriesCollection(newTimeSeriesCollection);
 }
 
 interface RawTimeSeriesDatum {
@@ -65,4 +65,22 @@ function getTimeSeriesDataPoint(element: RawTimeSeriesDatum): TimeSeriesDatum {
 export function getISODateFormat(appleInput: string): string {
   const chunks = appleInput.split(" ");
   return chunks[0] + "T" + chunks[1] + chunks[2];
+}
+
+function sortTimeSeriesCollection(
+  input: Record<string, TimeSeries>
+): Record<string, TimeSeries> {
+  for (const value of Object.values(input)) {
+    value.dataSet.sort(
+      (a: TimeSeriesDatum, b: TimeSeriesDatum) => b.x.diff(a.x).milliseconds
+    );
+  }
+  return input;
+}
+
+function trimDataType(input: string): string {
+  input = input.replace("HKQuantityTypeIdentifier", "");
+  input = input.replace("HKDataType", "");
+  input = input.replace(/([a-z])([A-Z])/g, "$1 $2");
+  return input;
 }

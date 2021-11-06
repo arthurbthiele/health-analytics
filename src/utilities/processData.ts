@@ -25,12 +25,12 @@ export function processData(inputJson: UploadData): Record<string, TimeSeries> {
 
   timeSeriesRaw.forEach((element) => {
     const timeSeriesDatum = getTimeSeriesDataPoint(element);
-    const dataType = element.attr.type;
+    const dataType = trimDataType(element.attr.type);
     const unit = element.attr.unit;
 
     if (!(dataType in newTimeSeriesCollection)) {
       newTimeSeriesCollection[dataType] = {
-        type: trimDataType(dataType),
+        type: dataType,
         unit: unit,
         dataSet: [timeSeriesDatum],
       };

@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/health-monitor/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/health-monitor/static/js/main.f4694cdf.chunk.js",
-    "main.js.map": "/health-monitor/static/js/main.f4694cdf.chunk.js.map",
+    "main.js": "/health-monitor/static/js/main.07eb662d.chunk.js",
+    "main.js.map": "/health-monitor/static/js/main.07eb662d.chunk.js.map",
     "runtime-main.js": "/health-monitor/static/js/runtime-main.11acfe1f.js",
     "runtime-main.js.map": "/health-monitor/static/js/runtime-main.11acfe1f.js.map",
-    "static/js/2.a48e56c4.chunk.js": "/health-monitor/static/js/2.a48e56c4.chunk.js",
-    "static/js/2.a48e56c4.chunk.js.map": "/health-monitor/static/js/2.a48e56c4.chunk.js.map",
+    "static/js/2.a6d9c8f7.chunk.js": "/health-monitor/static/js/2.a6d9c8f7.chunk.js",
+    "static/js/2.a6d9c8f7.chunk.js.map": "/health-monitor/static/js/2.a6d9c8f7.chunk.js.map",
     "index.html": "/health-monitor/index.html",
     "static/css/main.6dea0f05.chunk.css.map": "/health-monitor/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.a48e56c4.chunk.js.LICENSE.txt": "/health-monitor/static/js/2.a48e56c4.chunk.js.LICENSE.txt"
+    "static/js/2.a6d9c8f7.chunk.js.LICENSE.txt": "/health-monitor/static/js/2.a6d9c8f7.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.11acfe1f.js",
-    "static/js/2.a48e56c4.chunk.js",
+    "static/js/2.a6d9c8f7.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.f4694cdf.chunk.js"
+    "static/js/main.07eb662d.chunk.js"
   ]
 }

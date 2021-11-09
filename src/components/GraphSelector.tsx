@@ -7,7 +7,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { TimeSeries } from "../utilities/processData";
 import { ReactElement } from "react";
 
-export default function GraphSelector({
+export function GraphSelector({
   timeSeriesCollection,
   selectedTimeSeries,
   setSelectedTimeSeries,

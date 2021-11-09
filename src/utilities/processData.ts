@@ -13,7 +13,7 @@ export interface TimeSeries {
 }
 
 export function processData(inputJson: UploadData): Record<string, TimeSeries> {
-  const newTimeSeriesCollection: Record<string, TimeSeries> = {};
+  const timeSeriesCollection: Record<string, TimeSeries> = {};
 
   const timeSeriesRaw = inputJson.HealthData.Record.filter(
     (element: Element): element is RawTimeSeriesDatum =>
@@ -28,17 +28,18 @@ export function processData(inputJson: UploadData): Record<string, TimeSeries> {
     const dataType = trimDataType(element.attr.type);
     const unit = element.attr.unit;
 
-    if (!(dataType in newTimeSeriesCollection)) {
-      newTimeSeriesCollection[dataType] = {
+    if (!(dataType in timeSeriesCollection)) {
+      timeSeriesCollection[dataType] = {
         type: dataType,
         unit: unit,
         dataSet: [timeSeriesDatum],
       };
     } else {
-      newTimeSeriesCollection[dataType].dataSet.push(timeSeriesDatum);
+      timeSeriesCollection[dataType].dataSet.push(timeSeriesDatum);
     }
   });
-  return sortTimeSeriesCollection(newTimeSeriesCollection);
+  console.log(Object.keys(timeSeriesCollection));
+  return sortTimeSeriesCollection(timeSeriesCollection);
 }
 
 interface RawTimeSeriesDatum {
@@ -72,7 +73,7 @@ function sortTimeSeriesCollection(
 ): Record<string, TimeSeries> {
   for (const value of Object.values(input)) {
     value.dataSet.sort(
-      (a: TimeSeriesDatum, b: TimeSeriesDatum) => b.x.diff(a.x).milliseconds
+      (a: TimeSeriesDatum, b: TimeSeriesDatum) => a.x.diff(b.x).milliseconds
     );
   }
   return input;

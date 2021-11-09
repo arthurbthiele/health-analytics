@@ -4,8 +4,8 @@ import { processData, TimeSeries } from "../utilities/processData";
 import { TimeSeriesGraph } from "./TimeSeriesGraph";
 import { UploadData } from "../utilities/validateUpload";
 import { DateInput } from "./DateInput";
-import GraphSelector from "./GraphSelector";
-// import moment from "moment";
+import { GraphSelector } from "./GraphSelector";
+import { RandomDataGenerator } from "./RandomDataGenerator";
 
 export function DataContainer(): ReactElement {
   const [timeSeriesCollection, setTimeSeriesCollection] =
@@ -18,11 +18,15 @@ export function DataContainer(): ReactElement {
   function onUpload(input: UploadData): void {
     setTimeSeriesCollection(processData(input));
   }
+  function onDataGeneration(input: Record<string, TimeSeries>): void {
+    setTimeSeriesCollection(input);
+  }
 
   return (
     <div>
       <FileUploader onUpload={onUpload} />
       <DateInput />
+      <RandomDataGenerator onDataGeneration={onDataGeneration} />
       {!!timeSeriesCollection && (
         <GraphSelector
           timeSeriesCollection={timeSeriesCollection}

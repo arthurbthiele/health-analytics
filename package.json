@@ -6,6 +6,7 @@
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
+    "@stdlib/random-iter-normal": "^0.0.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -18,7 +19,6 @@
     "eslint-plugin-react": "^7.26.1",
     "fast-xml-parser": "^3.20.3",
     "he": "^1.2.0",
-    "lodash": "^4.17.21",
     "luxon": "^2.0.2",
     "moment": "^2.29.1",
     "react": "^17.0.2",
@@ -59,7 +59,6 @@
   "devDependencies": {
     "@mui/material": "^5.0.6",
     "@types/he": "^1.1.2",
-    "@types/lodash": "^4.14.175",
     "@types/luxon": "^2.0.5",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",

@@ -5,6 +5,14 @@ import { parseXML } from "../utilities/xmlParser";
 import { UploadData } from "../utilities/validateUpload";
 import { Box } from "@mui/material";
 
+// todo: use this??
+//  <label htmlFor="contained-button-file">
+//   <Input accept="image/*" id="contained-button-file" multiple type="file" />
+//   <Button variant="contained" component="span">
+//     Upload
+//   </Button>
+// </label>
+
 function getOnDrop(onUpload: (input: UploadData) => void) {
   return useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file: File) => {

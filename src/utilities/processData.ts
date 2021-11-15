@@ -65,6 +65,7 @@ function getTimeSeriesDataPoint(element: RawTimeSeriesDatum): TimeSeriesDatum {
 
 export function getISODateFormat(appleInput: string): string {
   const chunks = appleInput.split(" ");
+
   return chunks[0] + "T" + chunks[1] + chunks[2];
 }
 

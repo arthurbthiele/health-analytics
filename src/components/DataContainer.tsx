@@ -11,10 +11,13 @@ export function DataContainer(): ReactElement {
   const [timeSeriesCollection, setTimeSeriesCollection] =
     useState<Record<string, TimeSeries>>();
   const [selectedTimeSeries, setSelectedTimeSeries] = useState<string>("");
-  // const [lifestyleChangeDate, setLifestyleChangeDate] = useState<
-  //   moment.Moment | undefined
-  // >(undefined);
+  const [value, setValue] = React.useState<Date | null>(
+    new Date("2020-08-18T21:11:54")
+  );
 
+  const handleChange = (newValue: Date | null) => {
+    setValue(newValue);
+  };
   function onUpload(input: UploadData): void {
     setTimeSeriesCollection(processData(input));
   }
@@ -24,9 +27,11 @@ export function DataContainer(): ReactElement {
 
   return (
     <div>
-      <FileUploader onUpload={onUpload} />
-      <DateInput />
-      <RandomDataGenerator onDataGeneration={onDataGeneration} />
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <FileUploader onUpload={onUpload} />
+        <RandomDataGenerator onDataGeneration={onDataGeneration} />
+        <DateInput handleChange={handleChange} value={value} />
+      </div>
       {!!timeSeriesCollection && (
         <GraphSelector
           timeSeriesCollection={timeSeriesCollection}

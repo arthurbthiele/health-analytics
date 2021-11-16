@@ -1,59 +1,58 @@
 import { DateTime } from "luxon";
 import { Element, UploadData } from "./validateUpload";
 
-export interface TimeSeriesDatum {
+export interface TimeseriesDatum {
   x: DateTime;
   y: number;
 }
 
-export interface TimeSeries {
+export interface Timeseries {
   type: string;
   unit: string;
-  dataSet: TimeSeriesDatum[];
+  dataSet: TimeseriesDatum[];
 }
 
-export function processData(inputJson: UploadData): Record<string, TimeSeries> {
-  const timeSeriesCollection: Record<string, TimeSeries> = {};
+export function processData(inputJson: UploadData): Record<string, Timeseries> {
+  const timeseriesCollection: Record<string, Timeseries> = {};
 
-  const timeSeriesRaw = inputJson.HealthData.Record.filter(
-    (element: Element): element is RawTimeSeriesDatum =>
+  const timeseriesRaw = inputJson.HealthData.Record.filter(
+    (element: Element): element is RawTimeseriesDatum =>
       element.attr.value !== undefined &&
       element.attr.startDate !== undefined &&
       element.attr.type !== undefined &&
       element.attr.unit !== undefined
   );
 
-  timeSeriesRaw.forEach((element) => {
-    const timeSeriesDatum = getTimeSeriesDataPoint(element);
+  timeseriesRaw.forEach((element) => {
+    const timeseriesDatum = getTimeseriesDataPoint(element);
     const dataType = trimDataType(element.attr.type);
     const unit = element.attr.unit;
 
-    if (!(dataType in timeSeriesCollection)) {
-      timeSeriesCollection[dataType] = {
+    if (!(dataType in timeseriesCollection)) {
+      timeseriesCollection[dataType] = {
         type: dataType,
         unit: unit,
-        dataSet: [timeSeriesDatum],
+        dataSet: [timeseriesDatum],
       };
     } else {
-      timeSeriesCollection[dataType].dataSet.push(timeSeriesDatum);
+      timeseriesCollection[dataType].dataSet.push(timeseriesDatum);
     }
   });
-  console.log(Object.keys(timeSeriesCollection));
-  return sortTimeSeriesCollection(timeSeriesCollection);
+  return sortTimeseriesCollection(timeseriesCollection);
 }
 
-interface RawTimeSeriesDatum {
-  attr: TimeSeriesAttribute;
+interface RawTimeseriesDatum {
+  attr: TimeseriesAttribute;
 }
 
-interface TimeSeriesAttribute {
+interface TimeseriesAttribute {
   type: string;
   value: string;
   startDate: string;
   unit: string;
 }
 
-function getTimeSeriesDataPoint(element: RawTimeSeriesDatum): TimeSeriesDatum {
+function getTimeseriesDataPoint(element: RawTimeseriesDatum): TimeseriesDatum {
   const startTime = DateTime.fromISO(getISODateFormat(element.attr.startDate));
   const value = Number(element.attr.value);
   return { x: startTime, y: value };
@@ -69,12 +68,12 @@ export function getISODateFormat(appleInput: string): string {
   return chunks[0] + "T" + chunks[1] + chunks[2];
 }
 
-function sortTimeSeriesCollection(
-  input: Record<string, TimeSeries>
-): Record<string, TimeSeries> {
+function sortTimeseriesCollection(
+  input: Record<string, Timeseries>
+): Record<string, Timeseries> {
   for (const value of Object.values(input)) {
     value.dataSet.sort(
-      (a: TimeSeriesDatum, b: TimeSeriesDatum) => a.x.diff(b.x).milliseconds
+      (a: TimeseriesDatum, b: TimeseriesDatum) => a.x.diff(b.x).milliseconds
     );
   }
   return input;

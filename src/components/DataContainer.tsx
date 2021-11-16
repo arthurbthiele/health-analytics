@@ -1,28 +1,32 @@
 import React, { ReactElement, useState } from "react";
 import { FileUploader } from "./FileUploader";
-import { processData, TimeSeries } from "../utilities/processData";
-import { TimeSeriesGraph } from "./TimeSeriesGraph";
+import { processData, Timeseries } from "../utilities/processData";
 import { UploadData } from "../utilities/validateUpload";
 import { DateInput } from "./DateInput";
 import { GraphSelector } from "./GraphSelector";
 import { RandomDataGenerator } from "./RandomDataGenerator";
+import { DateTime } from "luxon";
+import { Analytics } from "./Analytics";
+import { TimeseriesGraph } from "./TimeseriesGraph";
 
 export function DataContainer(): ReactElement {
-  const [timeSeriesCollection, setTimeSeriesCollection] =
-    useState<Record<string, TimeSeries>>();
-  const [selectedTimeSeries, setSelectedTimeSeries] = useState<string>("");
-  const [value, setValue] = React.useState<Date | null>(
-    new Date("2020-08-18T21:11:54")
+  const [timeseriesCollection, setTimeseriesCollection] =
+    useState<Record<string, Timeseries>>();
+  const [selectedTimeseries, setSelectedTimeseries] = useState<string>("");
+  const [analyticsDate, setAnalyticsDate] = React.useState<DateTime | null>(
+    DateTime.now()
   );
 
   const handleChange = (newValue: Date | null) => {
-    setValue(newValue);
+    if (!!newValue) {
+      setAnalyticsDate(DateTime.fromJSDate(newValue));
+    }
   };
   function onUpload(input: UploadData): void {
-    setTimeSeriesCollection(processData(input));
+    setTimeseriesCollection(processData(input));
   }
-  function onDataGeneration(input: Record<string, TimeSeries>): void {
-    setTimeSeriesCollection(input);
+  function onDataGeneration(input: Record<string, Timeseries>): void {
+    setTimeseriesCollection(input);
   }
 
   return (
@@ -30,20 +34,31 @@ export function DataContainer(): ReactElement {
       <div style={{ display: "flex", flexDirection: "row" }}>
         <FileUploader onUpload={onUpload} />
         <RandomDataGenerator onDataGeneration={onDataGeneration} />
-        <DateInput handleChange={handleChange} value={value} />
+        <DateInput
+          handleChange={handleChange}
+          value={analyticsDate?.toJSDate() ?? null}
+        />
       </div>
-      {!!timeSeriesCollection && (
+      {!!timeseriesCollection && (
         <GraphSelector
-          timeSeriesCollection={timeSeriesCollection}
-          selectedTimeSeries={selectedTimeSeries}
-          setSelectedTimeSeries={setSelectedTimeSeries}
+          timeseriesCollection={timeseriesCollection}
+          selectedTimeseries={selectedTimeseries}
+          setSelectedTimeseries={setSelectedTimeseries}
         />
       )}
-      {!!timeSeriesCollection && !!timeSeriesCollection[selectedTimeSeries] && (
-        <TimeSeriesGraph
-          timeSeries={timeSeriesCollection[selectedTimeSeries]}
+      {!!timeseriesCollection && !!timeseriesCollection[selectedTimeseries] && (
+        <TimeseriesGraph
+          timeseries={timeseriesCollection[selectedTimeseries]}
         />
       )}
+      {!!timeseriesCollection &&
+        !!timeseriesCollection[selectedTimeseries] &&
+        !!analyticsDate && (
+          <Analytics
+            timeseries={timeseriesCollection[selectedTimeseries]}
+            analyticsDate={analyticsDate}
+          />
+        )}
     </div>
   );
 }

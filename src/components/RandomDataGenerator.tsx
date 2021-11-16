@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { TimeSeries, TimeSeriesDatum } from "../utilities/processData";
+import { Timeseries, TimeseriesDatum } from "../utilities/processData";
 import iterator from "@stdlib/random-iter-normal";
 import { DateTime, Interval } from "luxon";
 import { dataTypeStandardValues } from "../assets/standardDataTypes";
@@ -9,7 +9,7 @@ import { Text } from "./Text";
 export function RandomDataGenerator({
   onDataGeneration,
 }: {
-  onDataGeneration: (input: Record<string, TimeSeries>) => void;
+  onDataGeneration: (input: Record<string, Timeseries>) => void;
 }): ReactElement {
   return (
     <Box
@@ -28,24 +28,24 @@ export function RandomDataGenerator({
   );
 }
 
-function generateRandomDataSet(): Record<string, TimeSeries> {
+function generateRandomDataSet(): Record<string, Timeseries> {
   const end = DateTime.now();
   const start = DateTime.now().minus({ days: 20 });
   const dates = days(Interval.fromDateTimes(start, end));
-  const timeSeriesCollection: Record<string, TimeSeries> = {};
+  const timeseriesCollection: Record<string, Timeseries> = {};
   for (const dataType of dataTypeStandardValues) {
     const it = iterator(dataType.statistics.mean, dataType.statistics.dev);
-    const values: TimeSeriesDatum[] = dates.map((date) => ({
+    const values: TimeseriesDatum[] = dates.map((date) => ({
       x: date,
       y: it.next().value,
     }));
-    timeSeriesCollection[dataType.name] = {
+    timeseriesCollection[dataType.name] = {
       type: dataType.name,
       unit: dataType.unit,
       dataSet: values,
     };
   }
-  return timeSeriesCollection;
+  return timeseriesCollection;
 }
 
 function days(interval: Interval): DateTime[] {

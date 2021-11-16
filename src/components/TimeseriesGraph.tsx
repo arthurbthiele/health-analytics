@@ -1,22 +1,22 @@
 import React, { ReactElement } from "react";
-import { TimeSeries } from "../utilities/processData";
+import { Timeseries } from "../utilities/processData";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-luxon";
 
-export function TimeSeriesGraph({
-  timeSeries,
+export function TimeseriesGraph({
+  timeseries,
 }: {
-  timeSeries: TimeSeries;
+  timeseries: Timeseries;
 }): ReactElement {
   const state = {
-    labels: timeSeries.dataSet.map((datum) => datum.x),
+    labels: timeseries.dataSet.map((datum) => datum.x),
     datasets: [
       {
-        label: timeSeries.type,
+        label: timeseries.type,
         backgroundColor: "rgba(75,192,192,1)",
         borderColor: "rgba(0,0,0,1)",
         borderWidth: 2,
-        data: timeSeries.dataSet.map((element) => element.y),
+        data: timeseries.dataSet.map((element) => element.y),
       },
     ],
   };
@@ -27,7 +27,7 @@ export function TimeSeriesGraph({
         {
           title: {
             display: true,
-            text: timeSeries.type,
+            text: timeseries.type,
           },
           legend: {
             display: true,
@@ -45,7 +45,7 @@ export function TimeSeriesGraph({
               display: true,
               title: {
                 display: true,
-                text: timeSeries.unit,
+                text: timeseries.unit,
               },
             },
           },

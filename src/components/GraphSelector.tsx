@@ -4,20 +4,20 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { TimeSeries } from "../utilities/processData";
+import { Timeseries } from "../utilities/processData";
 import { ReactElement } from "react";
 
 export function GraphSelector({
-  timeSeriesCollection,
-  selectedTimeSeries,
-  setSelectedTimeSeries,
+  timeseriesCollection,
+  selectedTimeseries,
+  setSelectedTimeseries,
 }: {
-  timeSeriesCollection: Record<string, TimeSeries>;
-  selectedTimeSeries: string;
-  setSelectedTimeSeries: React.Dispatch<React.SetStateAction<string>>;
+  timeseriesCollection: Record<string, Timeseries>;
+  selectedTimeseries: string;
+  setSelectedTimeseries: React.Dispatch<React.SetStateAction<string>>;
 }): ReactElement {
   const handleChange = (event: SelectChangeEvent) => {
-    setSelectedTimeSeries(event.target.value as string);
+    setSelectedTimeseries(event.target.value as string);
   };
 
   return (
@@ -27,13 +27,13 @@ export function GraphSelector({
         <Select
           labelId="timeseries-select-label"
           id="timeseries-select"
-          value={selectedTimeSeries}
+          value={selectedTimeseries}
           label="Select a data type to explore"
           onChange={handleChange}
         >
-          {Object.values(timeSeriesCollection).map((timeSeries, index) => (
-            <MenuItem value={timeSeries.type} key={index}>
-              {timeSeries.type}
+          {Object.values(timeseriesCollection).map((timeseries, index) => (
+            <MenuItem value={timeseries.type} key={index}>
+              {timeseries.type}
             </MenuItem>
           ))}
         </Select>

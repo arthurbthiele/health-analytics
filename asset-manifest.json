@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/health-monitor/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/health-monitor/static/js/main.d54817bc.chunk.js",
-    "main.js.map": "/health-monitor/static/js/main.d54817bc.chunk.js.map",
-    "runtime-main.js": "/health-monitor/static/js/runtime-main.11acfe1f.js",
-    "runtime-main.js.map": "/health-monitor/static/js/runtime-main.11acfe1f.js.map",
-    "static/js/2.b73b3376.chunk.js": "/health-monitor/static/js/2.b73b3376.chunk.js",
-    "static/js/2.b73b3376.chunk.js.map": "/health-monitor/static/js/2.b73b3376.chunk.js.map",
-    "index.html": "/health-monitor/index.html",
-    "static/css/main.6dea0f05.chunk.css.map": "/health-monitor/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.b73b3376.chunk.js.LICENSE.txt": "/health-monitor/static/js/2.b73b3376.chunk.js.LICENSE.txt"
+    "main.css": "/health-analytics/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/health-analytics/static/js/main.0b159fe8.chunk.js",
+    "main.js.map": "/health-analytics/static/js/main.0b159fe8.chunk.js.map",
+    "runtime-main.js": "/health-analytics/static/js/runtime-main.2ed58917.js",
+    "runtime-main.js.map": "/health-analytics/static/js/runtime-main.2ed58917.js.map",
+    "static/js/2.62eb8631.chunk.js": "/health-analytics/static/js/2.62eb8631.chunk.js",
+    "static/js/2.62eb8631.chunk.js.map": "/health-analytics/static/js/2.62eb8631.chunk.js.map",
+    "index.html": "/health-analytics/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/health-analytics/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.62eb8631.chunk.js.LICENSE.txt": "/health-analytics/static/js/2.62eb8631.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.11acfe1f.js",
-    "static/js/2.b73b3376.chunk.js",
+    "static/js/runtime-main.2ed58917.js",
+    "static/js/2.62eb8631.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.d54817bc.chunk.js"
+    "static/js/main.0b159fe8.chunk.js"
   ]
 }

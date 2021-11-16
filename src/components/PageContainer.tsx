@@ -14,17 +14,6 @@ export const PageContainer = ({
       justifyContent: "center",
     }}
   >
-    <div
-      style={{
-        padding: 24,
-        width: "80%",
-        height: "100%",
-        position: "absolute",
-        left: 0,
-        top: 0,
-      }}
-    >
-      {children}
-    </div>
+    {children}
   </div>
 );

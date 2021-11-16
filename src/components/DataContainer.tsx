@@ -30,7 +30,17 @@ export function DataContainer(): ReactElement {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        padding: 24,
+        width: "60%",
+        height: "100%",
+        position: "absolute",
+        left: 0,
+        top: 0,
+      }}
+    >
+      {" "}
       <div style={{ display: "flex", flexDirection: "row" }}>
         <FileUploader onUpload={onUpload} />
         <RandomDataGenerator onDataGeneration={onDataGeneration} />

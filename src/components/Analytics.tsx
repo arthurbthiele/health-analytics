@@ -1,11 +1,14 @@
 import React, { ReactElement } from "react";
 import { Timeseries } from "../utilities/processData";
 import { DateTime } from "luxon";
-import {
-  mean,
-  permutationTest,
-  sampleStandardDeviation,
-} from "simple-statistics";
+import { getSplitTimeseriesAnalytics } from "../utilities/analyticsHelpers";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 export function Analytics({
   timeseries,
@@ -15,135 +18,72 @@ export function Analytics({
   analyticsDate: DateTime;
 }): ReactElement {
   const output = getSplitTimeseriesAnalytics(timeseries, analyticsDate);
+
+  function createData(
+    name: string,
+    count: number,
+    average: number | string,
+    deviation: number | string
+  ) {
+    return { name, count, average, deviation };
+  }
+
+  const rows = [
+    createData(
+      "Analysis Prior to Selected Date",
+      output.before.count,
+      output.before.average || "-",
+      output.before.deviation || "-"
+    ),
+    createData(
+      "Analysis After Selected Date",
+      output.after.count,
+      output.after.average || "-",
+      output.after.deviation || "-"
+    ),
+  ];
   return (
     <div>
-      Before: Count: {output.before.count} <br />
-      Average: {output.before.average} <br />
-      Deviation: {output.before.deviation} <br />
-      After: Count: {output.after.count} <br />
-      Average: {output.after.average} <br />
-      Deviation: {output.after.deviation} <br />
-      {output.after.average && output.before.average && (
-        <div>
-          Overall Difference: {output.after.average - output.before.average}{" "}
-          <br />
-          This difference has a p-value of: {output.pValue}
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Analysis Section</TableCell>
+              <TableCell align="right">Record Count</TableCell>
+              <TableCell align="right">Mean</TableCell>
+              <TableCell align="right">Sample Standard Deviation</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.name}
+                </TableCell>
+                <TableCell align="right">{row.count}</TableCell>
+                <TableCell align="right">{row.average}</TableCell>
+                <TableCell align="right">{row.deviation}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {output.pValue && (
+        <div style={{ paddingTop: 10 }}>
+          Under a{" "}
+          <a href="https://en.wikipedia.org/wiki/Permutation_test">
+            Permutation Test
+          </a>
+          , this data separation has a p-value of {output.pValue}. <br />
+          This means that a difference in value of this great or greater has a{" "}
+          {output.pValue} chance of occurring if the underlying populations are
+          identical. In general, a lower p-value suggests that there is a
+          meaningful difference between the two populations.
         </div>
       )}
     </div>
   );
-}
-
-function getAnalytics(timeseries: Timeseries): StatisticalSummary {
-  const count = timeseries.dataSet.length;
-  if (count === 0) {
-    return {
-      count: 0,
-    };
-  }
-  const average = mean(timeseries.dataSet.map((datum) => datum.y));
-  const deviation = sampleStandardDeviation(
-    timeseries.dataSet.map((datum) => datum.y)
-  );
-  return { count, average, deviation };
-}
-
-export interface StatisticalSummary {
-  count: number;
-  average?: number;
-  deviation?: number;
-}
-
-export interface SplitTimeseries {
-  before: Timeseries;
-  after: Timeseries;
-}
-
-export interface SplitAnalytics {
-  before: StatisticalSummary;
-  after: StatisticalSummary;
-  pValue?: number | null;
-}
-
-function splitTimeseriesOnDate(
-  inputDate: DateTime,
-  timeseries: Timeseries
-): SplitTimeseries {
-  const dataSet = timeseries.dataSet;
-  if (dataSet.length === 0) {
-    return {
-      before: timeseries,
-      after: timeseries,
-    };
-  }
-  if (dataSet[0].x.diff(inputDate).milliseconds > 0) {
-    return {
-      before: {
-        ...timeseries,
-        dataSet: [],
-      },
-      after: timeseries,
-    };
-  }
-  if (dataSet[dataSet.length - 1].x.diff(inputDate).milliseconds < 0) {
-    return {
-      before: timeseries,
-      after: {
-        ...timeseries,
-        dataSet: [],
-      },
-    };
-  }
-
-  const splitIndex = dataSet.findIndex(
-    (timeseriesDatum) => timeseriesDatum.x.diff(inputDate).milliseconds > 0
-  );
-  const nonDataSetParams = {
-    type: timeseries.type,
-    unit: timeseries.unit,
-  };
-  const beforeTimeseries = {
-    ...nonDataSetParams,
-    dataSet: timeseries.dataSet.slice(0, splitIndex),
-  };
-  const afterTimeseries = {
-    ...nonDataSetParams,
-    dataSet: timeseries.dataSet.slice(splitIndex),
-  };
-  return {
-    before: beforeTimeseries,
-    after: afterTimeseries,
-  };
-}
-
-function getSplitTimeseriesAnalytics(
-  timeseries: Timeseries,
-  splitDate: DateTime
-): SplitAnalytics {
-  const splitTimeseries = splitTimeseriesOnDate(splitDate, timeseries);
-  const before = getAnalytics(splitTimeseries.before);
-  const after = getAnalytics(splitTimeseries.after);
-  const hypothesis =
-    before.average && after.average
-      ? before.average < after.average
-        ? "less"
-        : "greater"
-      : undefined;
-
-  if (!before.average || !after.average) {
-    return {
-      before,
-      after,
-    };
-  }
-  const pValue = permutationTest(
-    splitTimeseries.before.dataSet.map((datum) => datum.y),
-    splitTimeseries.after.dataSet.map((datum) => datum.y),
-    hypothesis
-  );
-  return {
-    before,
-    after,
-    pValue,
-  };
 }

@@ -71,7 +71,7 @@ export function Analytics({
           </TableBody>
         </Table>
       </TableContainer>
-      {output.pValue && (
+      {!!output.pValue && (
         <div style={{ paddingTop: 10 }}>
           Under a{" "}
           <a href="https://en.wikipedia.org/wiki/Permutation_test">

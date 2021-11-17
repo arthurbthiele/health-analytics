@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/health-analytics/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/health-analytics/static/js/main.d430ca5d.chunk.js",
-    "main.js.map": "/health-analytics/static/js/main.d430ca5d.chunk.js.map",
+    "main.js": "/health-analytics/static/js/main.79f1d6be.chunk.js",
+    "main.js.map": "/health-analytics/static/js/main.79f1d6be.chunk.js.map",
     "runtime-main.js": "/health-analytics/static/js/runtime-main.2ed58917.js",
     "runtime-main.js.map": "/health-analytics/static/js/runtime-main.2ed58917.js.map",
     "static/js/2.62eb8631.chunk.js": "/health-analytics/static/js/2.62eb8631.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.2ed58917.js",
     "static/js/2.62eb8631.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.d430ca5d.chunk.js"
+    "static/js/main.79f1d6be.chunk.js"
   ]
 }

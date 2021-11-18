@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/health-analytics/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/health-analytics/static/js/main.160bc112.chunk.js",
-    "main.js.map": "/health-analytics/static/js/main.160bc112.chunk.js.map",
+    "main.js": "/health-analytics/static/js/main.765c4115.chunk.js",
+    "main.js.map": "/health-analytics/static/js/main.765c4115.chunk.js.map",
     "runtime-main.js": "/health-analytics/static/js/runtime-main.2ed58917.js",
     "runtime-main.js.map": "/health-analytics/static/js/runtime-main.2ed58917.js.map",
-    "static/js/2.62eb8631.chunk.js": "/health-analytics/static/js/2.62eb8631.chunk.js",
-    "static/js/2.62eb8631.chunk.js.map": "/health-analytics/static/js/2.62eb8631.chunk.js.map",
+    "static/js/2.2da3377e.chunk.js": "/health-analytics/static/js/2.2da3377e.chunk.js",
+    "static/js/2.2da3377e.chunk.js.map": "/health-analytics/static/js/2.2da3377e.chunk.js.map",
     "index.html": "/health-analytics/index.html",
     "static/css/main.6dea0f05.chunk.css.map": "/health-analytics/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.62eb8631.chunk.js.LICENSE.txt": "/health-analytics/static/js/2.62eb8631.chunk.js.LICENSE.txt"
+    "static/js/2.2da3377e.chunk.js.LICENSE.txt": "/health-analytics/static/js/2.2da3377e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.2ed58917.js",
-    "static/js/2.62eb8631.chunk.js",
+    "static/js/2.2da3377e.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.160bc112.chunk.js"
+    "static/js/main.765c4115.chunk.js"
   ]
 }

@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
+import DatePicker from "@mui/lab/DatePicker";
 import React, { ReactElement } from "react";
 
 export function DateInput({
@@ -13,8 +13,8 @@ export function DateInput({
 }): ReactElement {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DesktopDatePicker
-        label="Date desktop"
+      <DatePicker
+        label="Analytics Date"
         inputFormat="dd/MM/yyyy"
         value={value}
         onChange={handleChange}

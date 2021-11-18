@@ -41,7 +41,7 @@ export interface SplitTimeseries {
 export interface SplitAnalytics {
   before: StatisticalSummary;
   after: StatisticalSummary;
-  pValue?: number | null;
+  pValue?: string | null;
 }
 
 function splitTimeseriesOnDate(
@@ -120,9 +120,10 @@ export function getSplitTimeseriesAnalytics(
     splitTimeseries.after.dataSet.map((datum) => datum.y),
     hypothesis
   );
+  const pValueOutput = pValue < 0.0001 ? "<0.0001" : pValue.toString();
   return {
     before,
     after,
-    pValue,
+    pValue: pValueOutput,
   };
 }

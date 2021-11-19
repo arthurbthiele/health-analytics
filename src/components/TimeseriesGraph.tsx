@@ -9,14 +9,18 @@ export function TimeseriesGraph({
   timeseries: Timeseries;
 }): ReactElement {
   const state = {
-    labels: timeseries.dataSet.map((datum) => datum.x),
+    labels: timeseries.dataSet.map((datum) => datum.x.toMillis()),
     datasets: [
       {
         label: timeseries.type,
         backgroundColor: "rgba(75,192,192,1)",
         borderColor: "rgba(0,0,0,1)",
         borderWidth: 2,
-        data: timeseries.dataSet.map((element) => element.y),
+        data: timeseries.dataSet.map((element) => ({
+          x: element.x.toMillis(),
+          y: element.y,
+        })),
+        // data: timeseries.dataSet,
       },
     ],
   };
@@ -25,6 +29,16 @@ export function TimeseriesGraph({
       data={state}
       options={
         {
+          onHover: null,
+          parsing: false,
+          // animation: false,
+          plugins: {
+            decimation: {
+              enabled: true,
+              algorithm: "lttb",
+              samples: 1000,
+            },
+          },
           title: {
             display: true,
             text: timeseries.type,

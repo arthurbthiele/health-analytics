@@ -20,7 +20,6 @@ export function TimeseriesGraph({
           x: element.x.toMillis(),
           y: element.y,
         })),
-        // data: timeseries.dataSet,
       },
     ],
   };
@@ -31,7 +30,6 @@ export function TimeseriesGraph({
         {
           onHover: null,
           parsing: false,
-          // animation: false,
           plugins: {
             decimation: {
               enabled: true,

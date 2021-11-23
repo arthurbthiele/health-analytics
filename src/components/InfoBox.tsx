@@ -37,7 +37,7 @@ export function InfoBox(): ReactElement {
       <br />
       If you want to test the features without uploading data, click the
       Generate Random Data button. This generates reasonably realistic data for
-      the last 21 days, on which data analysis can be done. To use the data
+      the last 201 days, on which data analysis can be done. To use the data
       analysis features, set the datepicker to a date where you think something
       might have changed (e.g. started a new medication, started a gym program,
       etc). Note that this feature will only work if you provide a date that is

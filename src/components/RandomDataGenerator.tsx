@@ -30,7 +30,7 @@ export function RandomDataGenerator({
 
 function generateRandomDataSet(): Record<string, Timeseries> {
   const end = DateTime.now();
-  const start = DateTime.now().minus({ days: 20 });
+  const start = DateTime.now().minus({ days: 200 });
   const dates = days(Interval.fromDateTimes(start, end));
   const timeseriesCollection: Record<string, Timeseries> = {};
   for (const dataType of dataTypeStandardValues) {

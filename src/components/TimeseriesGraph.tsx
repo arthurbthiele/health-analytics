@@ -2,13 +2,30 @@ import React, { ReactElement } from "react";
 import { Timeseries } from "../utilities/processData";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-luxon";
+import { DateTime } from "luxon";
+import { SplitAnalytics } from "../utilities/analyticsHelpers";
+
+export interface ChartDataSet {
+  label?: string;
+  backgroundColor?: string;
+  borderColor?: string;
+  borderWidth?: number;
+  data: { x: number; y: number }[];
+}
 
 export function TimeseriesGraph({
   timeseries,
+  analyticsDate,
+  analytics,
 }: {
   timeseries: Timeseries;
+  analyticsDate: DateTime | null;
+  analytics: SplitAnalytics | undefined;
 }): ReactElement {
-  const state = {
+  const state: {
+    labels: number[];
+    datasets: ChartDataSet[];
+  } = {
     labels: timeseries.dataSet.map((datum) => datum.x.toMillis()),
     datasets: [
       {
@@ -23,6 +40,26 @@ export function TimeseriesGraph({
       },
     ],
   };
+
+  if (
+    analyticsDate &&
+    (analytics?.before?.count ?? 0 > 0) &&
+    (analytics?.after?.count ?? 0 > 0)
+  ) {
+    const dateLine = getAnalyticsDateLine(analyticsDate, timeseries);
+    const priorAverageLine = getPriorAverageLine(
+      analyticsDate,
+      timeseries,
+      analytics
+    );
+    const postAverageLine = getPostAverageLine(
+      analyticsDate,
+      timeseries,
+      analytics
+    );
+    state.datasets.push(dateLine, priorAverageLine, postAverageLine);
+  }
+
   return (
     <Line
       data={state}
@@ -65,4 +102,63 @@ export function TimeseriesGraph({
       }
     />
   );
+}
+
+function getAnalyticsDateLine(
+  analyticsDate: DateTime,
+  timeseries: Timeseries
+): ChartDataSet {
+  return {
+    label: "Analytics Date",
+    data: [
+      {
+        x: analyticsDate.toMillis(),
+        y: Math.max(...timeseries.dataSet.map((element) => element.y)),
+      },
+      {
+        x: analyticsDate.toMillis(),
+        y: Math.min(...timeseries.dataSet.map((element) => element.y)),
+      },
+    ],
+  };
+}
+
+function getPriorAverageLine(
+  analyticsDate: DateTime,
+  timeseries: Timeseries,
+  analytics: SplitAnalytics | undefined
+): ChartDataSet {
+  return {
+    label: "Average prior to Analytics Date",
+    data: [
+      {
+        x: timeseries.dataSet[0].x.toMillis(),
+        y: analytics?.before.average ?? 0,
+      },
+      {
+        x: analyticsDate.toMillis(),
+        y: analytics?.before.average ?? 0,
+      },
+    ],
+  };
+}
+
+function getPostAverageLine(
+  analyticsDate: DateTime,
+  timeseries: Timeseries,
+  analytics: SplitAnalytics | undefined
+): ChartDataSet {
+  return {
+    label: "Average after the Analytics Date",
+    data: [
+      {
+        x: analyticsDate.toMillis(),
+        y: analytics?.after.average ?? 0,
+      },
+      {
+        x: timeseries.dataSet[timeseries.dataSet.length - 1].x.toMillis(),
+        y: analytics?.after.average ?? 0,
+      },
+    ],
+  };
 }

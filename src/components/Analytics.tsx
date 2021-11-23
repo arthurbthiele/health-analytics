@@ -1,7 +1,10 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Timeseries } from "../utilities/processData";
 import { DateTime } from "luxon";
-import { getSplitTimeseriesAnalytics } from "../utilities/analyticsHelpers";
+import {
+  getSplitTimeseriesAnalytics,
+  SplitAnalytics,
+} from "../utilities/analyticsHelpers";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,11 +16,21 @@ import Paper from "@mui/material/Paper";
 export function Analytics({
   timeseries,
   analyticsDate,
+  analytics,
+  setAnalytics,
 }: {
   timeseries: Timeseries;
   analyticsDate: DateTime;
+  analytics: SplitAnalytics | undefined;
+  setAnalytics: React.Dispatch<
+    React.SetStateAction<SplitAnalytics | undefined>
+  >;
 }): ReactElement {
-  const output = getSplitTimeseriesAnalytics(timeseries, analyticsDate);
+  useEffect(() => {
+    setTimeout(() => {
+      setAnalytics(getSplitTimeseriesAnalytics(timeseries, analyticsDate));
+    }, 1);
+  }, [timeseries, analyticsDate]);
 
   function createData(
     name: string,
@@ -31,15 +44,15 @@ export function Analytics({
   const rows = [
     createData(
       "Analysis Prior to Selected Date",
-      output.before.count,
-      output.before.average || "-",
-      output.before.deviation || "-"
+      analytics?.before.count || 0,
+      analytics?.before.average || "-",
+      analytics?.before.deviation || "-"
     ),
     createData(
       "Analysis After Selected Date",
-      output.after.count,
-      output.after.average || "-",
-      output.after.deviation || "-"
+      analytics?.after.count || 0,
+      analytics?.after.average || "-",
+      analytics?.after.deviation || "-"
     ),
   ];
   return (
@@ -71,16 +84,16 @@ export function Analytics({
           </TableBody>
         </Table>
       </TableContainer>
-      {output.pValue !== undefined && (
+      {analytics?.pValue !== undefined && (
         <div style={{ paddingTop: 10 }}>
           Under a{" "}
           <a href="https://en.wikipedia.org/wiki/Permutation_test">
             Permutation Test
           </a>
-          , this data separation has a p-value of {output.pValue}. <br />
+          , this data separation has a p-value of {analytics?.pValue}. <br />
           This means that a difference in value of this great or greater has a{" "}
-          {output.pValue} chance of occurring if the underlying populations are
-          identical. In general, a lower p-value suggests that there is a
+          {analytics?.pValue} chance of occurring if the underlying populations
+          are identical. In general, a lower p-value suggests that there is a
           meaningful difference between the two populations.
         </div>
       )}

@@ -8,6 +8,7 @@ import { RandomDataGenerator } from "./RandomDataGenerator";
 import { DateTime } from "luxon";
 import { Analytics } from "./Analytics";
 import { TimeseriesGraph } from "./TimeseriesGraph";
+import { SplitAnalytics } from "../utilities/analyticsHelpers";
 
 export function DataContainer(): ReactElement {
   const [timeseriesCollection, setTimeseriesCollection] =
@@ -16,6 +17,7 @@ export function DataContainer(): ReactElement {
   const [analyticsDate, setAnalyticsDate] = React.useState<DateTime | null>(
     DateTime.now()
   );
+  const [analytics, setAnalytics] = useState<SplitAnalytics>();
 
   const handleChange = (newValue: Date | null) => {
     if (!!newValue) {
@@ -59,6 +61,8 @@ export function DataContainer(): ReactElement {
       {!!timeseriesCollection && !!timeseriesCollection[selectedTimeseries] && (
         <TimeseriesGraph
           timeseries={timeseriesCollection[selectedTimeseries]}
+          analyticsDate={analyticsDate}
+          analytics={analytics}
         />
       )}
       {!!timeseriesCollection &&
@@ -67,6 +71,8 @@ export function DataContainer(): ReactElement {
           <Analytics
             timeseries={timeseriesCollection[selectedTimeseries]}
             analyticsDate={analyticsDate}
+            analytics={analytics}
+            setAnalytics={setAnalytics}
           />
         )}
     </div>

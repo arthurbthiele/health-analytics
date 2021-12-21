@@ -110,6 +110,8 @@ function getAnalyticsDateLine(
 ): ChartDataSet {
   return {
     label: "Analytics Date",
+    borderColor: "rgba(255,0,0,0.5)",
+    backgroundColor: "rgba(255,0,0,0.5)",
     data: [
       {
         x: analyticsDate.toMillis(),
@@ -130,6 +132,8 @@ function getPriorAverageLine(
 ): ChartDataSet {
   return {
     label: "Average prior to Analytics Date",
+    borderColor: "rgba(255,0,0,0.5)",
+    backgroundColor: "rgba(255,0,0,0.5)",
     data: [
       {
         x: timeseries.dataSet[0].x.toMillis(),
@@ -150,6 +154,8 @@ function getPostAverageLine(
 ): ChartDataSet {
   return {
     label: "Average after the Analytics Date",
+    borderColor: "rgba(255,0,0,0.5)",
+    backgroundColor: "rgba(255,0,0,0.5)",
     data: [
       {
         x: analyticsDate.toMillis(),

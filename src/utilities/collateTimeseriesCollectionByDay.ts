@@ -37,7 +37,10 @@ function collateTimeseries(timeseries: Timeseries): Timeseries {
       endDateIndex += 1;
     }
 
-    const todaysDatums = timeseries.dataSet.slice(startDateIndex, endDateIndex);
+    const todaysDatums = timeseries.dataSet.slice(
+      startDateIndex,
+      endDateIndex - 1
+    );
 
     collatedDataSet.push({
       x: date,

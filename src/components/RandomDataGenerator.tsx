@@ -5,6 +5,7 @@ import { DateTime, Interval } from "luxon";
 import { dataTypeStandardValues } from "../assets/standardDataTypes";
 import { Box } from "@mui/material";
 import { Text } from "./Text";
+import { daysInInterval } from "../utilities/daysInInterval";
 
 export function RandomDataGenerator({
   onDataGeneration,
@@ -31,7 +32,7 @@ export function RandomDataGenerator({
 function generateRandomDataSet(): Record<string, Timeseries> {
   const end = DateTime.now();
   const start = DateTime.now().minus({ days: 200 });
-  const dates = days(Interval.fromDateTimes(start, end));
+  const dates = daysInInterval(Interval.fromDateTimes(start, end));
   const timeseriesCollection: Record<string, Timeseries> = {};
   for (const dataType of dataTypeStandardValues) {
     const it = iterator(dataType.statistics.mean, dataType.statistics.dev);
@@ -46,14 +47,4 @@ function generateRandomDataSet(): Record<string, Timeseries> {
     };
   }
   return timeseriesCollection;
-}
-
-function days(interval: Interval): DateTime[] {
-  let cursor = interval.start.startOf("day");
-  const output: DateTime[] = [];
-  while (cursor < interval.end) {
-    output.push(cursor);
-    cursor = cursor.plus({ days: 1 });
-  }
-  return output;
 }

@@ -1,5 +1,6 @@
 import { DateTime } from "luxon";
 import { Element, UploadData } from "./validateUpload";
+import { collateTimeseriesCollectionByDay } from "./collateTimeseriesCollectionByDay";
 
 export interface TimeseriesDatum {
   x: DateTime;
@@ -38,7 +39,9 @@ export function processData(inputJson: UploadData): Record<string, Timeseries> {
       timeseriesCollection[dataType].dataSet.push(timeseriesDatum);
     }
   });
-  return sortTimeseriesCollection(timeseriesCollection);
+  return collateTimeseriesCollectionByDay(
+    sortTimeseriesCollection(timeseriesCollection)
+  );
 }
 
 interface RawTimeseriesDatum {

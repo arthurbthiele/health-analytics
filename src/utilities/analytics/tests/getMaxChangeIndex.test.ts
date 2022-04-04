@@ -1,9 +1,9 @@
 import { Timeseries } from "../../processData";
 import { DateTime, Interval } from "luxon";
 import { daysInInterval } from "../../daysInInterval";
-import { getMaxChangeDate } from "../getMaxChangeDate";
+import { getMaxChangeIndex } from "../getMaxChangeIndex";
 
-describe("getMaxChangeDate", () => {
+describe("getMaxChangeIndex", () => {
   it("should return undefined when there are less than 40 data points", () => {
     const shortConstantTimeseries: Timeseries = {
       type: "Height",
@@ -14,7 +14,7 @@ describe("getMaxChangeDate", () => {
       })),
     };
 
-    expect(getMaxChangeDate(shortConstantTimeseries)).toBeUndefined();
+    expect(getMaxChangeIndex(shortConstantTimeseries)).toBeUndefined();
   });
   it("should return the latest date within the edge offset of 20 when passed a constant dataset", () => {
     const longConstantTimeseries: Timeseries = {
@@ -26,9 +26,7 @@ describe("getMaxChangeDate", () => {
       })),
     };
 
-    expect(getMaxChangeDate(longConstantTimeseries)).toEqual(
-      DateTime.now().plus({ days: 280 }).startOf("day")
-    );
+    expect(getMaxChangeIndex(longConstantTimeseries)).toEqual(280);
   });
   it("should find the boundary when the dataset changes at a point", () => {
     const suddenChangeTimeseries: Timeseries = {
@@ -42,9 +40,7 @@ describe("getMaxChangeDate", () => {
           )
         ),
     };
-    expect(getMaxChangeDate(suddenChangeTimeseries)).toEqual(
-      DateTime.now().plus({ days: 120 }).startOf("day")
-    );
+    expect(getMaxChangeIndex(suddenChangeTimeseries)).toEqual(120);
   });
   it("should find the boundary in a gradually changing dataset with a sudden discontinuity", () => {
     let offset = 0;
@@ -65,9 +61,7 @@ describe("getMaxChangeDate", () => {
           )
         ),
     };
-    expect(getMaxChangeDate(suddenChangeTimeseries)).toEqual(
-      DateTime.now().plus({ days: 100 }).startOf("day")
-    );
+    expect(getMaxChangeIndex(suddenChangeTimeseries)).toEqual(100);
   });
 });
 

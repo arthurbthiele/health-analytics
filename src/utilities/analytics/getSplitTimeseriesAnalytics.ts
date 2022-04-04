@@ -1,9 +1,9 @@
 import { Timeseries } from "../processData";
 import React from "react";
 import { DateTime } from "luxon";
-import { getMaxChangeDate } from "./getMaxChangeDate";
+import { getMaxChangeIndex } from "./getMaxChangeIndex";
 import { getAnalytics, StatisticalSummary } from "./getAnalytics";
-import { splitTimeseriesOnDate } from "./splitTimeseriesOnDate";
+import { splitTimeseriesOnIndex } from "./splitTimeseriesOnIndex";
 import { permutationTest } from "simple-statistics";
 
 export interface SplitAnalytics {
@@ -16,15 +16,15 @@ export function getSplitTimeseriesAnalytics(
   timeseries: Timeseries,
   setAnalyticsDate: React.Dispatch<React.SetStateAction<DateTime | null>>
 ): SplitAnalytics {
-  const maxChangeDate = getMaxChangeDate(timeseries);
-  if (!maxChangeDate) {
+  const maxChangeIndex = getMaxChangeIndex(timeseries);
+  if (!maxChangeIndex) {
     return {
       before: getAnalytics(timeseries),
       after: getAnalytics({ ...timeseries, dataSet: [] }),
     };
   }
-  setAnalyticsDate(maxChangeDate);
-  const splitTimeseries = splitTimeseriesOnDate(maxChangeDate, timeseries);
+  setAnalyticsDate(timeseries.dataSet[maxChangeIndex].x);
+  const splitTimeseries = splitTimeseriesOnIndex(maxChangeIndex, timeseries);
   const before = getAnalytics(splitTimeseries.before);
   const after = getAnalytics(splitTimeseries.after);
   const hypothesis =

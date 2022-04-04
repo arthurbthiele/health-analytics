@@ -1,7 +1,6 @@
 import { Timeseries } from "../processData";
-import { DateTime } from "luxon";
 
-export function getMaxChangeDate(timeseries: Timeseries): DateTime | undefined {
+export function getMaxChangeIndex(timeseries: Timeseries): number | undefined {
   let sum = 0;
   if (timeseries.dataSet.length < 40) {
     return undefined;
@@ -30,5 +29,5 @@ export function getMaxChangeDate(timeseries: Timeseries): DateTime | undefined {
         max = value;
       }
     });
-  return timeseries.dataSet[maxIndex + edgeOffset].x;
+  return maxIndex + edgeOffset;
 }

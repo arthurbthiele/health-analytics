@@ -1,4 +1,3 @@
-import { DateTime } from "luxon";
 import { Timeseries } from "../processData";
 
 export interface SplitTimeseries {
@@ -6,8 +5,8 @@ export interface SplitTimeseries {
   after: Timeseries;
 }
 
-export function splitTimeseriesOnDate(
-  inputDate: DateTime,
+export function splitTimeseriesOnIndex(
+  splitIndex: number,
   timeseries: Timeseries
 ): SplitTimeseries {
   const dataSet = timeseries.dataSet;
@@ -17,28 +16,7 @@ export function splitTimeseriesOnDate(
       after: timeseries,
     };
   }
-  if (dataSet[0].x.diff(inputDate).milliseconds > 0) {
-    return {
-      before: {
-        ...timeseries,
-        dataSet: [],
-      },
-      after: timeseries,
-    };
-  }
-  if (dataSet[dataSet.length - 1].x.diff(inputDate).milliseconds < 0) {
-    return {
-      before: timeseries,
-      after: {
-        ...timeseries,
-        dataSet: [],
-      },
-    };
-  }
 
-  const splitIndex = dataSet.findIndex(
-    (timeseriesDatum) => timeseriesDatum.x.diff(inputDate).milliseconds > 0
-  );
   const nonDataSetParams = {
     type: timeseries.type,
     unit: timeseries.unit,

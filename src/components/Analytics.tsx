@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { Timeseries } from "../utilities/processData";
 import { DateTime } from "luxon";
 import {
@@ -15,12 +15,12 @@ import Paper from "@mui/material/Paper";
 
 export function Analytics({
   timeseries,
-  analyticsDate,
+  setAnalyticsDate,
   analytics,
   setAnalytics,
 }: {
   timeseries: Timeseries;
-  analyticsDate: DateTime;
+  setAnalyticsDate: React.Dispatch<React.SetStateAction<DateTime | null>>;
   analytics: SplitAnalytics | undefined;
   setAnalytics: React.Dispatch<
     React.SetStateAction<SplitAnalytics | undefined>
@@ -28,9 +28,9 @@ export function Analytics({
 }): ReactElement {
   useEffect(() => {
     setTimeout(() => {
-      setAnalytics(getSplitTimeseriesAnalytics(timeseries, analyticsDate));
+      setAnalytics(getSplitTimeseriesAnalytics(timeseries, setAnalyticsDate));
     }, 1);
-  }, [timeseries, analyticsDate]);
+  }, [timeseries]);
 
   function createData(
     name: string,

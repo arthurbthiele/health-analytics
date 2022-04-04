@@ -2,13 +2,12 @@ import React, { ReactElement, useState } from "react";
 import { FileUploader } from "./FileUploader";
 import { processData, Timeseries } from "../utilities/processData";
 import { UploadData } from "../utilities/validateUpload";
-import { DateInput } from "./DateInput";
 import { GraphSelector } from "./GraphSelector";
 import { RandomDataGenerator } from "./RandomDataGenerator";
-import { DateTime } from "luxon";
 import { Analytics } from "./Analytics";
 import { TimeseriesGraph } from "./TimeseriesGraph";
 import { SplitAnalytics } from "../utilities/analyticsHelpers";
+import { DateTime } from "luxon";
 
 export function DataContainer(): ReactElement {
   const [timeseriesCollection, setTimeseriesCollection] =
@@ -19,11 +18,6 @@ export function DataContainer(): ReactElement {
   );
   const [analytics, setAnalytics] = useState<SplitAnalytics>();
 
-  const handleChange = (newValue: Date | null) => {
-    if (!!newValue) {
-      setAnalyticsDate(DateTime.fromJSDate(newValue));
-    }
-  };
   function onUpload(input: UploadData): void {
     setTimeseriesCollection(processData(input));
   }
@@ -46,10 +40,6 @@ export function DataContainer(): ReactElement {
       <div style={{ display: "flex", flexDirection: "row" }}>
         <FileUploader onUpload={onUpload} />
         <RandomDataGenerator onDataGeneration={onDataGeneration} />
-        <DateInput
-          handleChange={handleChange}
-          value={analyticsDate?.toJSDate() ?? null}
-        />
       </div>
       {!!timeseriesCollection && (
         <GraphSelector
@@ -70,7 +60,7 @@ export function DataContainer(): ReactElement {
         !!analyticsDate && (
           <Analytics
             timeseries={timeseriesCollection[selectedTimeseries]}
-            analyticsDate={analyticsDate}
+            setAnalyticsDate={setAnalyticsDate}
             analytics={analytics}
             setAnalytics={setAnalytics}
           />

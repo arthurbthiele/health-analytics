@@ -101,6 +101,12 @@ export function getSplitTimeseriesAnalytics(
   setAnalyticsDate: React.Dispatch<React.SetStateAction<DateTime | null>>
 ): SplitAnalytics {
   const maxChangeDate = getMaxChangeDate(timeseries);
+  if (!maxChangeDate) {
+    return {
+      before: getAnalytics(timeseries),
+      after: getAnalytics({ ...timeseries, dataSet: [] }),
+    };
+  }
   setAnalyticsDate(maxChangeDate);
   const splitTimeseries = splitTimeseriesOnDate(maxChangeDate, timeseries);
   const before = getAnalytics(splitTimeseries.before);
@@ -131,8 +137,11 @@ export function getSplitTimeseriesAnalytics(
   };
 }
 
-function getMaxChangeDate(timeseries: Timeseries): DateTime {
+function getMaxChangeDate(timeseries: Timeseries): DateTime | undefined {
   let sum = 0;
+  if (timeseries.dataSet.length < 40) {
+    return undefined;
+  }
   timeseries.dataSet.forEach((element) => {
     sum = sum + element.y;
   });

@@ -3,7 +3,7 @@ import { Timeseries } from "../utilities/processData";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-luxon";
 import { DateTime } from "luxon";
-import { SplitAnalytics } from "../utilities/analyticsHelpers";
+import { SplitAnalytics } from "../utilities/analytics/getSplitTimeseriesAnalytics";
 
 export interface ChartDataSet {
   label?: string;

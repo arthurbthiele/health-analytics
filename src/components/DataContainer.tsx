@@ -6,8 +6,8 @@ import { GraphSelector } from "./GraphSelector";
 import { RandomDataGenerator } from "./RandomDataGenerator";
 import { Analytics } from "./Analytics";
 import { TimeseriesGraph } from "./TimeseriesGraph";
-import { SplitAnalytics } from "../utilities/analyticsHelpers";
 import { DateTime } from "luxon";
+import { SplitAnalytics } from "../utilities/analytics/getSplitTimeseriesAnalytics";
 
 export function DataContainer(): ReactElement {
   const [timeseriesCollection, setTimeseriesCollection] =
